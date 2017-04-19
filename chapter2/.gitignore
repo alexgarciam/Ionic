@@ -4,3 +4,5 @@
 node_modules/
 platforms/
 plugins/
+# Dependency directory
+chapter2/node_modules
