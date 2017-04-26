@@ -8,8 +8,8 @@ angular.module('App')
 					currency.ticker = tickers[currency.code];
 					currency.ticker.timestamp = new Date(currency.ticker.timestamp);
 				});
-			}).catch(function(error) {
-        console.log("error!");
+			}).finally(function(error) {
+        	$scope.$broadcast('scroll.refreshComplete');
     	});
 	};
 	$scope.load();
