@@ -22,6 +22,15 @@ angular.module('App', ['ionic'])
 			}
 		}
 	})
+	.state('tabs.detail', {
+		url: '/detail/:currency',
+		views: {
+			'rates-tab': {
+				templateUrl: 'views/detail/detail.html',
+				controller: 'DetailController'
+			}
+		}
+	})
 	.state('tabs.currencies', {
 		url: '/currencies',
 		views: {
