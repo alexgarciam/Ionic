@@ -33,6 +33,7 @@ angular.module('App')
 
 	$http.get('https://api.bitcoinaverage.com/history/'+$scope.history.currency+'/per_hour_monthly_sliding_window.csv').success(function (prices) {
 		prices = prices.split(/\n/);
+		console.log("prices: "+prices);
 		var series = {
 			data: []
 		};
@@ -44,9 +45,9 @@ angular.module('App')
 				series.data.push([date, value]);
 			}
 		});
+		console.log("series: "+JSON.stringify(series));
 		$scope.chart.series.push(series);
 	});
-
 
 	
 	$scope.$on('$ionicView.enter', function() {
