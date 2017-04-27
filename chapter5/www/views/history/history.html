@@ -1,5 +1,27 @@
-<ion-view view-title="Hourly Average Price">
+<ion-view view-title="Hourly Average Price" hide-back-button="true">
 	<ion-content>
-	hello history
+
+		<div class="list list-inset">
+			<label class="item item-input item-select">
+				<div class="input-label">
+					Currency
+				</div>
+				<select ng-change="changeCurrency()" ng-model="history.currency">
+					<option ng-repeat="currency in currencies" value="{{currency.code}}" ng-selected="history.currency == currency.code">{{currency.code}} - {{currency.text}}</option>
+				</select>
+			</label>
+		</div>
+
+		<ion-list ng-repeat="item in options">
+            <ion-item class="item item-input item-select">
+                <div class="input-label">
+                    {{item.name}}
+                </div>
+                <select ng-model="item.default" ng-options="item.name for item in item.Choices">
+                </select>
+                </ion-item>
+        </ion-list>
+
+		<!--<highchart config="chart"></highchart>-->
 	</ion-content>
 </ion-view>
