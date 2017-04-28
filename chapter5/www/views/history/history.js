@@ -1,62 +1,58 @@
 angular.module('App')
 .controller('HistoryController', function ($scope, $http, $state, $stateParams, Currencies) {
-	console.log("test1");
-	$scope.history = {
-		currency: $stateParams.currency || 'USD'
-	};
-	$scope.currencies = Currencies;
-	$scope.changeCurrency = function () {
-		console.log("change!");
-		$state.go('tabs.history', { currency: $scope.history.currency });
-	};
-	
-	$scope.chart = {
-		options: {
-			chart: {
-				type: 'line'
-			},
-			legend: {
-				enabled: false
-			}
-		},
-		title: {
-			text: null
-		},
-		yAxis: {
-			title: null
-		},
-		xAxis: {
-			type: 'datetime'
-		},
-		series: []
-	};
 
-	$http.get('https://api.bitcoinaverage.com/history/'+$scope.history.currency+'/per_hour_monthly_sliding_window.csv').success(function (prices) {
-		prices = prices.split(/\n/);
-		console.log("prices: "+prices);
-		var series = {
-			data: []
-		};
-		angular.forEach(prices, function (price, index) {
-			price = price.split(',');
-			var date = new Date(price[0].replace(' ', 'T')).getTime();
-			var value = parseFloat(price[3]);
-			if (date && value > 0) {
-				series.data.push([date, value]);
-			}
-		});
-		console.log("series: "+JSON.stringify(series));
-		$scope.chart.series.push(series);
-	});
+  $scope.history = {
+    currency: $stateParams.currency || 'USD'
+  };
+  $scope.currencies = Currencies;
 
-	
-	$scope.$on('$ionicView.enter', function() {
-		console.log("test enter");
-		$scope.history = {
-			currency: $stateParams.currency || 'USD'
-		};
-	});
-	
+  $scope.changeCurrency = function () {
+    $state.go('tabs.history', { currency: $scope.history.currency });
+  };
 
+  $scope.chart = {
+    options: {
+      chart: {
+        type: 'line'
+      },
+      legend: {
+        enabled: false
+      }
+    },
+    title: {
+      text: null
+    },
+    yAxis: {
+      title: null
+    },
+    xAxis: {
+      type: 'datetime'
+    },
+    series: []
+  };
 
+  $http.get('https://api.bitcoinaverage.com/history/' + $scope.history.currency + '/per_hour_monthly_sliding_window.csv').success(function (prices) {
+
+    prices = prices.split(/\n/);
+    var series = {
+      data: []
+    };
+
+    angular.forEach(prices, function (price, index) {
+      price = price.split(',');
+      var date = new Date(price[0].replace(' ', 'T')).getTime();
+      var value = parseFloat(price[3]);
+      if (date && value > 0) {
+        series.data.push([date, value]);
+      }
+    });
+
+    $scope.chart.series.push(series);
+  });
+
+  $scope.$on('$ionicView.beforeEnter', function() {
+    $scope.history = {
+      currency: $stateParams.currency || 'USD'
+    };
+  });
 });
